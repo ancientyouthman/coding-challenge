@@ -5,11 +5,10 @@ using System.Web;
 
 namespace ShipTracking.Enums
 {
-    public enum Direction
+    // should be port and starboard, no? :) 
+    public enum Rotation
     {
-      North = 0,
-        East = 90,
-        South = 180,
-        West = 720
+        Left,
+        Right
     }
 }

@@ -1,9 +1,11 @@
 ﻿using Newtonsoft.Json;
+using ShipTracking.Enums;
 using ShipTracking.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using ShipTracking.Extensions;
 
 namespace ShipTracking.Services
 {
@@ -42,7 +44,21 @@ namespace ShipTracking.Services
                 var currentPosition = shipToMove.Position;
                 var finalPosition = new CoordinateModel();
 
-
+                foreach (char command in instruction.InstructionString)
+                {
+                    switch (command)
+                    {
+                        case 'L':
+                            shipToMove.Rotate(Rotation.Left);
+                            break;
+                        case 'F':
+                       //     shipToMove.Advance();
+                            break;
+                        case 'R':
+                            shipToMove.Rotate(Rotation.Right);
+                            break;
+                    }
+                }
 
             }
 

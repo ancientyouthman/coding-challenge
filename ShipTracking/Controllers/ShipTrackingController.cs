@@ -34,10 +34,12 @@ namespace ShipTracking.Controllers
             return PartialView("_ControlPanel", ships);
         }
 
-        [HttpPost]
-        public ActionResult MoveShips(IEnumerable<InstructionModel> instructions )
+      //  [HttpPost]
+        public ActionResult MoveShips(List<InstructionModel> instructions )
         {
-            if (instructions != null && instructions.Any()) return null;
+            instructions = new List<InstructionModel>();
+            instructions.Add(new InstructionModel { InstructionString = "FLRF", ShipId = 1 });
+            if (instructions == null || !instructions.Any()) return null;
 
                 foreach(var instruction in instructions)
                 {
