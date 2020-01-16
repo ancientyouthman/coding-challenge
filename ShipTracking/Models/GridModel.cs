@@ -8,6 +8,8 @@ namespace ShipTracking.Models
     public class GridModel
     {
         public CoordinateModel Dimensions { get; set; }
+        public IEnumerable<ShipModel> Ships { get; set; }
+        public IEnumerable<CoordinateModel> PointsOfNoReturn { get; set; }
 
     }
 }

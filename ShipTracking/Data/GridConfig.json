@@ -2,5 +2,35 @@
   "Dimensions": {
     "X": 8,
     "Y": 5
-  }
+  },
+
+  "Ships" : [
+    {
+      "Id": 1,
+      "Lost": false,
+      "Orientation" :  "North",
+      "Position": {
+        "X": 3,
+        "Y": 4
+      }
+    },
+    {
+      "Id": 2,
+      "Lost": false,
+      "Orientation" :  "East",
+      "Position": {
+        "X": 2,
+        "Y": 5
+      }
+    },
+    {
+      "Id": 3,
+      "Lost": false,
+      "Orientation" :  "West",
+      "Position": {
+        "X": 4,
+        "Y": 6
+      }
+    }
+  ]
 }
