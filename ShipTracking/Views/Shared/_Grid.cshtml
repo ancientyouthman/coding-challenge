@@ -1,5 +1,53 @@
 ﻿@model GridModel
+@{
+    var x = Model.Dimensions.X;
+    var y = Model.Dimensions.Y;
+}
+<br />
+<br />
+<br />
+<br />
+<div class="row">
+    @for (var i = x; i > 0; i--)
+    {
+        <div class="shipping-grid-row">
+            @for (var j = 1; j <= x; j++)
+            {
+                <div class="shipping-grid-square">
+                    @j, @i
+                </div>
+            }
+        </div>
+    }
+</div>
 
-<h1>hello grid!</h1>
-<h1>X: @Model.Dimensions.X</h1>
-<h1>Y: @Model.Dimensions.Y</h1>
+
+<style>
+    *{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.shipping-grid-row{
+  display: flex;
+
+}
+.shipping-grid-col{
+  flex: 1;
+  margin: 0 1rem;
+  border: 1px solid black;
+
+}
+.shipping-grid-square{
+  flex: 1;
+  border:1px solid black;
+    height: 45px;
+  width: 45px;
+}
+
+.square:after{
+  content: '';
+  display: block;
+  padding-bottom: 100%;
+}
+</style>
