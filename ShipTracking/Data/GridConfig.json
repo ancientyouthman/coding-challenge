@@ -4,11 +4,11 @@
     "Y": 5
   },
 
-  "Ships" : [
+  "Ships": [
     {
       "Id": 1,
       "Lost": false,
-      "Orientation" :  "North",
+      "Orientation": "North",
       "Position": {
         "X": 3,
         "Y": 4
@@ -17,7 +17,7 @@
     {
       "Id": 2,
       "Lost": false,
-      "Orientation" :  "East",
+      "Orientation": "East",
       "Position": {
         "X": 2,
         "Y": 5
@@ -26,11 +26,17 @@
     {
       "Id": 3,
       "Lost": false,
-      "Orientation" :  "West",
+      "Orientation": "West",
       "Position": {
         "X": 4,
         "Y": 6
       }
+    }
+  ],
+  "PointsOfNoReturn": [
+    {
+      "X": 1,
+      "Y": 1
     }
   ]
 }

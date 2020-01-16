@@ -11,6 +11,12 @@
         return Model.Ships.Where(ship => ship.Position.X == x && ship.Position.Y == y && !ship.Lost).Any();
     }
 
+    bool PositionIsPointOfNoReturn(int x, int y)
+    {
+        if (Model.PointsOfNoReturn == null || !Model.PointsOfNoReturn.Any()) return false;
+        return Model.PointsOfNoReturn.Where(pos => pos.X == x && pos.Y == y).Any();
+    }
+
     IEnumerable<ShipModel> GetShipsInformation(int x, int y)
     {
         var ships = Model.Ships.Where(ship => ship.Position.X == x && ship.Position.Y == y && !ship.Lost);
@@ -30,7 +36,7 @@
         <div class="shipping-grid-row">
             @for (var j = 1; j <= x; j++)
             {
-                <div class="shipping-grid-square">
+                <div class="shipping-grid-square @(PositionIsPointOfNoReturn(j, i) ? "no-return" : "")">
                     <small>
                         @j, @i
                     </small>
@@ -81,5 +87,9 @@
         content: '';
         display: block;
         padding-bottom: 100%;
+    }
+
+    .no-return{
+        background-color: lightcoral;
     }
 </style>
