@@ -1,0 +1,26 @@
+﻿@model List<ShipModel>
+
+@{ 
+    var ships = Model.Where(ship => !ship.Lost).ToList();
+}
+<div class="row">
+  @using (Html.BeginForm("MoveShips", "ShipTracking"))
+  {
+    if(Model != null || Model.Any())
+    {
+     for(var i = 0; i < ships.Count(); i++)
+     {
+              <div class="row">
+                  Ship ID: @ships[i].Id <br />
+                  Orientation: @ships[i].Orientation
+              </div>
+              <label>Instruction</label>
+            <input type="hidden" name="Instructions[@i].ShipId" value="@ships[i].Id" />
+            <input type="text" name="Instructions[@i].Instruction" />
+
+          }
+
+      }
+  }
+</div>
+

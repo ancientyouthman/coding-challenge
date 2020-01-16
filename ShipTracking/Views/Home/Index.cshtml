@@ -2,6 +2,9 @@
     ViewBag.Title = "Home Page";
 }
 
-        <div class="ship-grid-container">
-            @Html.Action("RenderGrid", "Components")
+        <div  id="grid" class="ship-grid-container">
+            @Html.Action("RenderGrid", "ShipTracking")
         </div>
+<div class="ship-control-panel-container">
+    @Html.Action("RenderControlPanel", "ShipTracking")
+</div>
