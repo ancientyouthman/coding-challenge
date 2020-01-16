@@ -11,6 +11,7 @@ namespace ShipTracking.Controllers
     public class ShipTrackingController : Controller
     {
         private readonly ShipTrackingService _shipTrackingService;
+        private readonly  string _allowedCommands = "FLR";
 
         public ShipTrackingController()
         {
@@ -31,6 +32,29 @@ namespace ShipTracking.Controllers
             var grid = _shipTrackingService.GetGrid();
             if (grid != null && grid.Ships != null) ships = grid.Ships.ToList();
             return PartialView("_ControlPanel", ships);
+        }
+
+        [HttpPost]
+        public ActionResult MoveShips(IEnumerable<InstructionModel> instructions )
+        {
+            if (instructions != null && instructions.Any()) return null;
+
+                foreach(var instruction in instructions)
+                {
+                    foreach (char c in instruction.InstructionString)
+                    {
+                        if (!_allowedCommands.Contains(c))
+                        {
+                            ModelState.AddModelError("", $"Invalid command for Ship ID {instruction.ShipId}");
+                        }
+                    }
+                }            
+
+            if (!ModelState.IsValid) return null; // TODO: hmm
+
+            _shipTrackingService.MoveShips(instructions);
+            return null;
+
         }
     }
 }
