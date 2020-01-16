@@ -143,6 +143,7 @@
     <Compile Include="Models\CoordinateModel.cs" />
     <Compile Include="Models\GridModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\DataService.cs" />
     <Compile Include="Services\ShipTrackingService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -155,6 +156,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Data\GridConfig.json" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

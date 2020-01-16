@@ -1,4 +1,5 @@
-﻿using ShipTracking.Models;
+﻿using Newtonsoft.Json;
+using ShipTracking.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,18 @@ namespace ShipTracking.Services
 {
     public class ShipTrackingService
     {
+        private readonly DataService _dataService;
+
+        public ShipTrackingService()
+        {
+            _dataService = new DataService();
+        }
+
         public GridModel GetGrid()
         {
-            return new GridModel();
+            var gridData = _dataService.ReadGridData();
+            var grid = JsonConvert.DeserializeObject<GridModel>(gridData);
+            return grid;
         }
     }
 }
