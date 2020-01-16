@@ -10,6 +10,7 @@ namespace ShipTracking.Models
 {
     public class ShipModel
     {
+        public int Id { get; set; }
         public CoordinateModel Position { get; set; }
         [JsonConverter(typeof(StringEnumConverter))]
         public Direction Orientation { get; set; }
