@@ -21,5 +21,26 @@ namespace ShipTracking.Extensions
             ship.Orientation = (Direction)orientation;
 
         }
+
+        public static void Advance(this ShipModel ship)
+        {
+            var orientation = ship.Orientation;
+            switch (orientation)
+            {
+                case Direction.North:
+                    ship.Position.Y++;
+                    break;
+                case Direction.East:
+                    ship.Position.X++;
+                    break;
+                case Direction.South:
+                    ship.Position.Y--;
+                    break;
+                case Direction.West:
+                    ship.Position.X--;
+                    break;
+            }
+
+        }
     }
 }

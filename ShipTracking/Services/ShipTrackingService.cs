@@ -30,20 +30,23 @@ namespace ShipTracking.Services
             var result = new UpdateAttempt { Success = false };
             var grid = this.GetGrid();
             var ships = grid.Ships;
+            ships = ships.Where(ship => !ship.Lost);
+
             if (ships == null || !ships.Any())
             {
                 result.Message = "No ships on grid!";
                 return result;
             }
 
-            ships = ships.Where(ship => !ship.Lost);
+            var xBoundary = grid.Dimensions.X;
+            var yBoundary = grid.Dimensions.Y;
+            var pointsOfNoReturn = new List<CoordinateModel>();
+
             foreach (var instruction in instructions)
             {
                 var shipToMove = ships.Where(ship => ship.Id == instruction.ShipId).FirstOrDefault();
                 if (shipToMove == null) continue;
                 var currentPosition = shipToMove.Position;
-                var finalPosition = new CoordinateModel();
-
                 foreach (char command in instruction.InstructionString)
                 {
                     switch (command)
@@ -52,16 +55,32 @@ namespace ShipTracking.Services
                             shipToMove.Rotate(Rotation.Left);
                             break;
                         case 'F':
-                       //     shipToMove.Advance();
+                            shipToMove.Advance();
+                            if (shipToMove.Position.X > xBoundary
+                                || shipToMove.Position.Y > yBoundary
+                                || shipToMove.Position.X < 0
+                                || shipToMove.Position.Y < 0)
+                            {
+                                shipToMove.Lost = true;
+                                pointsOfNoReturn.Add(new CoordinateModel
+                                {
+                                    X = shipToMove.Position.X,
+                                    Y = shipToMove.Position.Y
+                                });
+                                continue;
+                            }
+
                             break;
                         case 'R':
                             shipToMove.Rotate(Rotation.Right);
                             break;
                     }
                 }
-
             }
 
+            grid.PointsOfNoReturn = grid.PointsOfNoReturn.Concat(pointsOfNoReturn);
+            var gridJson = JsonConvert.SerializeObject(grid);
+                _dataService.UpdateGrid(gridJson);
 
             result.Success = true;
             return result;

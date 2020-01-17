@@ -24,5 +24,12 @@ namespace ShipTracking.Services
             var gridData = File.ReadAllText(filePath);
             return gridData;
         }
+
+        public  UpdateAttempt UpdateGrid(string gridJson)
+        {
+            var filePath = HttpContext.Current.Server.MapPath($"{_dataRootPath}/GridConfig.json");
+            File.WriteAllText(filePath, gridJson);
+            return new UpdateAttempt { Success = true };
+        }
     }
 }

@@ -34,11 +34,13 @@ namespace ShipTracking.Controllers
             return PartialView("_ControlPanel", ships);
         }
 
-      //  [HttpPost]
+      //  [HttpPost] to test via a GET in browser
         public ActionResult MoveShips(List<InstructionModel> instructions )
         {
+            // test data as model not bound 
             instructions = new List<InstructionModel>();
             instructions.Add(new InstructionModel { InstructionString = "FLRF", ShipId = 1 });
+
             if (instructions == null || !instructions.Any()) return null;
 
                 foreach(var instruction in instructions)
