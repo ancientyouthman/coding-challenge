@@ -30,7 +30,7 @@ namespace ShipTracking.Services
             var result = new UpdateAttempt { Success = false };
             var grid = this.GetGrid();
             var ships = grid.Ships;
-            ships = ships.Where(ship => !ship.Lost);
+            ships = ships.Where(ship => !ship.Lost).OrderBy(ship => ship.Id);
 
             if (ships == null || !ships.Any())
             {

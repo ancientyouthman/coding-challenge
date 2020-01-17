@@ -35,11 +35,12 @@ namespace ShipTracking.Controllers
         }
 
       //  [HttpPost] to test via a GET in browser
+      // ran out of time to implement the post to this method
         public ActionResult MoveShips(List<InstructionModel> instructions )
         {
             // test data as model not bound 
             instructions = new List<InstructionModel>();
-            instructions.Add(new InstructionModel { InstructionString = "FLRF", ShipId = 1 });
+            instructions.Add(new InstructionModel { InstructionString = "FRF", ShipId = 1 });
 
             if (instructions == null || !instructions.Any()) return null;
 
