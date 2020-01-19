@@ -70,8 +70,10 @@ namespace ShipTracking.Controllers
         [HttpPost]
         public ActionResult ResizeGrid(ResizeGridModel coords)
         {
+            if (coords?.X == coords?.Y) ModelState.AddModelError("", "Grid must be a rectangle");
             if (!ModelState.IsValid) return Errors();
-            return null;
+            _shipTrackingService.ResizeGrid(coords);
+            return RenderGrid();
         }
 
         [HttpGet]

@@ -27,7 +27,7 @@ namespace ShipTracking.Services
 
         public UpdateAttempt MoveShips(IEnumerable<InstructionModel> instructions)
         {
-            var result = new UpdateAttempt { Success = false };
+            var result = new UpdateAttempt();
             var grid = this.GetGrid();
             var ships = grid.Ships;
             ships = ships.Where(ship => !ship.Lost).OrderBy(ship => ship.Id);
@@ -80,16 +80,24 @@ namespace ShipTracking.Services
 
             grid.PointsOfNoReturn = grid.PointsOfNoReturn.Concat(pointsOfNoReturn);
             var gridJson = JsonConvert.SerializeObject(grid);
-                _dataService.UpdateGrid(gridJson);
+            _dataService.UpdateGrid(gridJson);
 
             result.Success = true;
             return result;
 
         }
 
-        public UpdateAttempt ResizeGrid(CoordinateModel coords)
+        public UpdateAttempt ResizeGrid(ResizeGridModel coords)
         {
-            throw new NotImplementedException();
+            var grid = this.GetGrid();
+            grid.Dimensions = new CoordinateModel
+            {
+                X = coords.X,
+                Y = coords.Y
+            };
+            var gridJson = JsonConvert.SerializeObject(grid);
+            var result = _dataService.UpdateGrid(gridJson);
+            return result;
         }
 
         public UpdateAttempt AddShip(AddShipModel model)
