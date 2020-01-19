@@ -3,7 +3,7 @@ $(function () {
 
     function DisplayErrors(errors, $target) {
         $target.show();
-        $target.html();
+        $target.html('');
         for (var i = 0; i < errors.length; i++) {
             $target.append('<p>' + errors[i].ErrorMessage + '</p>')
         }

@@ -38,10 +38,8 @@ namespace ShipTracking.Controllers
         [HttpPost]
         public ActionResult MoveShips(List<InstructionModel> instructions)
         {
-            // test data as model not bound 
-
             if (instructions == null || !instructions.Any()) return null;
-
+            instructions = instructions.Where(instruction => !string.IsNullOrEmpty(instruction.InstructionString)).ToList();
             foreach (var instruction in instructions)
             {
                 foreach (char c in instruction.InstructionString)
@@ -49,22 +47,29 @@ namespace ShipTracking.Controllers
                     if (!_allowedCommands.Contains(Char.ToUpper(c)))
                     {
                         ModelState.AddModelError(instruction.ShipId.ToString(), $"Invalid command for Ship ID {instruction.ShipId}");
-                        continue;
+                        break;
                     }
+                  
                 }
+
             }
 
             if (!ModelState.IsValid)
             {
                 // TODO: wrap in its own method
-                Response.StatusCode = 400;
-                var errors = ModelState.Values.SelectMany(v => v.Errors);
-                return Json(new { errors });
+               return Errors();
             }
 
             _shipTrackingService.MoveShips(instructions);
             return this.RenderGrid();
 
+        }
+
+        private ActionResult Errors()
+        {
+            Response.StatusCode = 400;
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
+            return Json(new { errors });
         }
     }
 }
