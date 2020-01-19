@@ -28,8 +28,7 @@
 @* quick bodge for layout *@
 <br />
 <br />
-<br />
-<br />
+
 <div class="row">
     <div id="ship-tracking-grid">
         @for (var i = y; i > 0; i--)
@@ -60,38 +59,3 @@
 </div>
 
 
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    .shipping-grid-row {
-        display: flex;
-    }
-
-    .shipping-grid-col {
-        flex: 1;
-        margin: 0 1rem;
-        border: 1px solid black;
-    }
-
-    .shipping-grid-square {
-        flex: 1;
-        border: 1px solid black;
-        height: 100px;
-        width: 50px;
-        overflow:scroll;
-    }
-
-    .square:after {
-        content: '';
-        display: block;
-        padding-bottom: 100%;
-    }
-
-    .no-return{
-        background-color: lightcoral;
-    }
-</style>

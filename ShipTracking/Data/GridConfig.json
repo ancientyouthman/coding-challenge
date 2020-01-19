@@ -1,1 +1,81 @@
-{"Dimensions":{"X":4,"Y":5},"Ships":[{"Id":1,"Position":{"X":5,"Y":4},"Orientation":"South","Lost":true},{"Id":2,"Position":{"X":3,"Y":5},"Orientation":"North","Lost":false},{"Id":3,"Position":{"X":1,"Y":4},"Orientation":"East","Lost":false}],"PointsOfNoReturn":[{"X":1,"Y":1},{"X":3,"Y":9},{"X":3,"Y":10},{"X":5,"Y":5},{"X":5,"Y":4}]}
+{
+  "Dimensions": {
+    "X": 4,
+    "Y": 5
+  },
+  "Ships": [
+    {
+      "Id": 1,
+      "Position": {
+        "X": 1,
+        "Y": 1
+      },
+      "Orientation": "South",
+      "Lost": false
+    },
+    {
+      "Id": 2,
+      "Position": {
+        "X": 2,
+        "Y": 2
+      },
+      "Orientation": "South",
+      "Lost": false
+    },
+    {
+      "Id": 3,
+      "Position": {
+        "X": 3,
+        "Y": 3
+      },
+      "Orientation": "East",
+      "Lost": false
+    }
+  ],
+  "PointsOfNoReturn": [
+    {
+      "X": 1,
+      "Y": 1
+    },
+    {
+      "X": 3,
+      "Y": 9
+    },
+    {
+      "X": 3,
+      "Y": 10
+    },
+    {
+      "X": 5,
+      "Y": 5
+    },
+    {
+      "X": 5,
+      "Y": 4
+    },
+    {
+      "X": 5,
+      "Y": 4
+    },
+    {
+      "X": 3,
+      "Y": -1
+    },
+    {
+      "X": 3,
+      "Y": -2
+    },
+    {
+      "X": 5,
+      "Y": 3
+    },
+    {
+      "X": 3,
+      "Y": -3
+    },
+    {
+      "X": 6,
+      "Y": 4
+    }
+  ]
+}
