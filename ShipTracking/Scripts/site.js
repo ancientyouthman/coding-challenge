@@ -1,10 +1,11 @@
 ﻿
 $(function () {
 
-    function DisplayErrors(errors) {
+    function DisplayErrors(errors, $target) {
+        $target.show();
+        $target.html();
         for (var i = 0; i < errors.length; i++) {
-            $('<label for="' + errors[i].Key + '" class="error"></label>')
-            .html(errors[i].Value[0]).appendTo($("input#" + errors[i].Key).parent());
+            $target.append('<p>' + errors[i].ErrorMessage  + '</p>')
         }
     }
 
@@ -12,17 +13,20 @@ $(function () {
         e.preventDefault();
         var $form = $('#form-move-ships');
         var $grid = $('#ship-tracking-grid');
+        var $errorMessages = $('#move-ships-errors');
+        $errorMessages.hide();
+        $grid.addClass('loading');
         var formData = $form.serialize();
         $.ajax({
             type: 'POST',
             url: '/ShipTracking/MoveShips',
             data: formData,
-            dataType: 'json',
-            success: function (result) {
-                $grid.html(result);
+            success: function (response) {
+                $grid.removeClass('loading');
+                $grid.html(response);
             },
-            error: function (errors) {
-                DisplayErrors(errors);
+            error: function (response) {
+                DisplayErrors(response.responseJSON.errors, $errorMessages);
                 }
         });
     });

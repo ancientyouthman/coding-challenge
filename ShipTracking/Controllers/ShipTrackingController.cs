@@ -12,7 +12,7 @@ namespace ShipTracking.Controllers
     public class ShipTrackingController : Controller
     {
         private readonly ShipTrackingService _shipTrackingService;
-        private readonly  string _allowedCommands = "FLR";
+        private readonly string _allowedCommands = "FLR";
 
         public ShipTrackingController()
         {
@@ -35,29 +35,30 @@ namespace ShipTracking.Controllers
             return PartialView("_ControlPanel", ships);
         }
 
-        [HttpPost] 
-        public ActionResult MoveShips(List<InstructionModel> instructions )
+        [HttpPost]
+        public ActionResult MoveShips(List<InstructionModel> instructions)
         {
             // test data as model not bound 
 
             if (instructions == null || !instructions.Any()) return null;
 
-                foreach(var instruction in instructions)
+            foreach (var instruction in instructions)
+            {
+                foreach (char c in instruction.InstructionString)
                 {
-                    foreach (char c in instruction.InstructionString)
+                    if (!_allowedCommands.Contains(Char.ToUpper(c)))
                     {
-                        if (!_allowedCommands.Contains(c))
-                        {
-                            ModelState.AddModelError("", $"Invalid command for Ship ID {instruction.ShipId}");
-                        }
+                        ModelState.AddModelError(instruction.ShipId.ToString(), $"Invalid command for Ship ID {instruction.ShipId}");
+                        continue;
                     }
                 }
+            }
 
             if (!ModelState.IsValid)
             {
                 // TODO: wrap in its own method
                 Response.StatusCode = 400;
-                var errors =  ModelState.Values.SelectMany(v => v.Errors);
+                var errors = ModelState.Values.SelectMany(v => v.Errors);
                 return Json(new { errors });
             }
 

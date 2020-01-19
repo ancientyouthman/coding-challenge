@@ -10,6 +10,6 @@ namespace ShipTracking.Enums
       North = 0,
         East = 90,
         South = 180,
-        West = 720
+        West = 270
     }
 }

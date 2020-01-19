@@ -49,7 +49,7 @@ namespace ShipTracking.Services
                 var currentPosition = shipToMove.Position;
                 foreach (char command in instruction.InstructionString)
                 {
-                    switch (command)
+                    switch (Char.ToUpper(command))
                     {
                         case 'L':
                             shipToMove.Rotate(Rotation.Left);
