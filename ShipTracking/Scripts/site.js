@@ -31,6 +31,27 @@ $(function () {
         });
     }
 
+    function ResizeGrid() {
+        var $form = $('#form-resize-grid');
+        var $grid = $('#ship-tracking-grid');
+        var $errorMessages = $('#resize-grid-errors');
+        $errorMessages.hide();
+        $grid.addClass('loading');
+        var formData = $form.serialize();
+        $.ajax({
+            type: 'POST',
+            url: '/ShipTracking/ResizeGrid',
+            data: formData,
+            success: function (response) {
+                $grid.removeClass('loading');
+                $grid.html(response);
+            },
+            error: function (response) {
+                DisplayErrors(response.responseJSON.errors, $errorMessages);
+            }
+        });
+    }
+
     function UpdateControlPanel() {
         var $controlPanel = $('#ships-control-panel');
         $controlPanel.addClass('loading');
@@ -46,5 +67,9 @@ $(function () {
 
     $(document).on('click', '#btn-move-ships', function () {
         MoveShips();
+    });
+
+    $(document).on('click', '#btn-resize-grid', function () {
+        ResizeGrid();
     });
 });

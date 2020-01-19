@@ -94,6 +94,7 @@ namespace ShipTracking.Services
 
         public UpdateAttempt AddShip(AddShipModel model)
         {
+            throw new NotImplementedException();
 
         }
     }

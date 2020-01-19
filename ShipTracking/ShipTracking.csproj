@@ -144,6 +144,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AddShipModel.cs" />
+    <Compile Include="Models\ResizeGridModel.cs" />
     <Compile Include="Models\CoordinateModel.cs" />
     <Compile Include="Models\InstructionModel.cs" />
     <Compile Include="Models\ShipModel.cs" />
@@ -190,6 +191,8 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_Grid.cshtml" />
     <Content Include="Views\Shared\_MoveShips.cshtml" />
+    <Content Include="Views\Shared\_ResizeGrid.cshtml" />
+    <Content Include="Views\Shared\_AddShip.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -52,10 +52,7 @@ namespace ShipTracking.Controllers
                 }
             }
 
-            if (!ModelState.IsValid)
-            {
-                return Errors();
-            }
+            if (!ModelState.IsValid) return Errors();
 
             var result = _shipTrackingService.MoveShips(instructions);
             if (result.Success) return this.RenderGrid();
@@ -67,19 +64,20 @@ namespace ShipTracking.Controllers
         [HttpGet]
         public ActionResult RenderResizeGrid()
         {
-            return PartialView("_RenderResizeGrid");
+            return PartialView("_ResizeGrid");
         }
 
         [HttpPost]
-        public ActionResult ResizeGrid(CoordinateModel coords)
+        public ActionResult ResizeGrid(ResizeGridModel coords)
         {
+            if (!ModelState.IsValid) return Errors();
             return null;
         }
 
         [HttpGet]
         public ActionResult RenderAddShip()
         {
-            return PartialView("AddShip");
+            return PartialView("_AddShip");
         }
 
         [HttpPost]
