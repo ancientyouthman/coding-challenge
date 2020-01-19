@@ -86,5 +86,15 @@ namespace ShipTracking.Services
             return result;
 
         }
+
+        public UpdateAttempt ResizeGrid(CoordinateModel coords)
+        {
+            throw new NotImplementedException();
+        }
+
+        public UpdateAttempt AddShip(AddShipModel model)
+        {
+
+        }
     }
 }

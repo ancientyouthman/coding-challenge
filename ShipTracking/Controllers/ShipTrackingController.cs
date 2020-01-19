@@ -48,19 +48,46 @@ namespace ShipTracking.Controllers
                     {
                         ModelState.AddModelError(instruction.ShipId.ToString(), $"Invalid command for Ship ID {instruction.ShipId}");
                         break;
-                    }                  
+                    }
                 }
             }
 
             if (!ModelState.IsValid)
             {
-               return Errors();
+                return Errors();
             }
 
-            _shipTrackingService.MoveShips(instructions);
-            return this.RenderGrid();
+            var result = _shipTrackingService.MoveShips(instructions);
+            if (result.Success) return this.RenderGrid();
+            ModelState.AddModelError("", result.Message);
+            return Errors();
 
         }
+
+        [HttpGet]
+        public ActionResult RenderResizeGrid()
+        {
+            return PartialView("_RenderResizeGrid");
+        }
+
+        [HttpPost]
+        public ActionResult ResizeGrid(CoordinateModel coords)
+        {
+            return null;
+        }
+
+        [HttpGet]
+        public ActionResult RenderAddShip()
+        {
+            return PartialView("AddShip");
+        }
+
+        [HttpPost]
+        public ActionResult AddShip(AddShipModel ship)
+        {
+            return null;
+        }
+
 
         private ActionResult Errors()
         {
