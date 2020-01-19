@@ -8,7 +8,10 @@
         </div>
         <h3>Add ship</h3>
         <form id="form-add-ship">
-            <div class="row">
+            @*
+                // Realised the spec said that the inputfor direction had to be a string
+                // this will work as-is as long as the AddShipModel.Orientation property is of type Direction (enum)
+                <div class="row">
                 <label>Orientation</label>
                 <select name="Direction">
                     <option value="North">North</option>
@@ -16,6 +19,12 @@
                     <option value="South">South</option>
                     <option value="West">West</option>
                 </select>
+            </div>
+                *@
+
+            <div class="row">
+                <label>Orientation</label>
+                <input maxlength="1" type="text" name="Orientation" />
             </div>
             <div class="row">
                 <label>X</label>

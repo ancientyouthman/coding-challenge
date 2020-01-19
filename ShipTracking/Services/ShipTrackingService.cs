@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using ShipTracking.Extensions;
+using ShipTracking.Helpers;
 
 namespace ShipTracking.Services
 {
@@ -109,11 +110,13 @@ namespace ShipTracking.Services
 
             if (grid.Ships != null && grid.Ships.Any()) shipId = grid.Ships.Select(ship => ship.Id).Max() + 1;
 
+            var orientation = InputHelpers.MapDirectionInput(model.Orientation);
+            if (orientation == null) return new UpdateAttempt { Message = "Invalid direction" };
             var shipToAdd = new ShipModel
             {
                 Id = shipId,
                 Lost = false,
-                Orientation = model.Orientation,
+                Orientation = orientation.Value, 
                 Position = new CoordinateModel {
                     X = model.Position.X,
                     Y = model.Position.Y,
@@ -125,5 +128,6 @@ namespace ShipTracking.Services
             var result = _dataService.UpdateGrid(gridJson);
             return result;
         }
+
     }
 }

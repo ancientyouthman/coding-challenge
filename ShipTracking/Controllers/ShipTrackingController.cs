@@ -12,7 +12,10 @@ namespace ShipTracking.Controllers
     public class ShipTrackingController : Controller
     {
         private readonly ShipTrackingService _shipTrackingService;
+        // for extensibility, it may be better to put these in a class or enum rather than a magic string in here
         private readonly string _allowedCommands = "FLR";
+        private readonly string _allowedDirections = "ENSW";
+
 
         public ShipTrackingController()
         {
@@ -87,6 +90,10 @@ namespace ShipTracking.Controllers
         [HttpPost]
         public ActionResult AddShip(AddShipModel ship)
         {
+            if (string.IsNullOrEmpty(ship.Orientation)
+                || ship.Orientation.Length > 1
+                || !_allowedDirections.Contains(ship.Orientation.ToUpper())
+                ) ModelState.AddModelError("", "Invalid orientation for ship");
             if (!ModelState.IsValid) return Errors();
             var result = _shipTrackingService.AddShip(ship);
             if (result.Success) return this.RenderGrid();
