@@ -31,6 +31,7 @@ namespace ShipTracking.Services
             var result = new UpdateAttempt();
             var grid = this.GetGrid();
             var ships = grid.Ships;
+            // spec says to move ships asyncronously so we will mvoe them in ID order
             ships = ships.Where(ship => !ship.Lost).OrderBy(ship => ship.Id);
 
             if (ships == null || !ships.Any())
@@ -47,7 +48,6 @@ namespace ShipTracking.Services
             {
                 var shipToMove = ships.Where(ship => ship.Id == instruction.ShipId).FirstOrDefault();
                 if (shipToMove == null) continue;
-                var currentPosition = shipToMove.Position;
                 foreach (char command in instruction.InstructionString)
                 {
                     switch (Char.ToUpper(command))
@@ -56,30 +56,31 @@ namespace ShipTracking.Services
                             shipToMove.Rotate(Rotation.Left);
                             break;
                         case 'F':
+                            var lastKnownPosition = new CoordinateModel { X = shipToMove.Position.X, Y = shipToMove.Position.Y };
                             shipToMove.Advance();
-                            if (shipToMove.Position.X > xBoundary
-                                || shipToMove.Position.Y > yBoundary
-                                || shipToMove.Position.X < 0
-                                || shipToMove.Position.Y < 0)
+                            // spec says "ship sends out a warning" and i wasn't sure whether to take that literally
+                            // i.e. should the responsibility of marking points of no return be on the ship?
+                            if (shipToMove.IsOutOfBounds(xBoundary, yBoundary))
                             {
                                 shipToMove.Lost = true;
                                 pointsOfNoReturn.Add(new CoordinateModel
                                 {
-                                    X = shipToMove.Position.X,
-                                    Y = shipToMove.Position.Y
+                                    X = lastKnownPosition.X,
+                                    Y = lastKnownPosition.Y
                                 });
-                                continue;
                             }
-
                             break;
                         case 'R':
                             shipToMove.Rotate(Rotation.Right);
                             break;
+                        default:
+                            break;
                     }
+                    if (shipToMove.Lost) break;
                 }
             }
 
-            grid.PointsOfNoReturn = grid.PointsOfNoReturn.Concat(pointsOfNoReturn);
+            grid.PointsOfNoReturn = grid.PointsOfNoReturn == null ? pointsOfNoReturn :  grid.PointsOfNoReturn.Concat(pointsOfNoReturn);
             var gridJson = JsonConvert.SerializeObject(grid);
             _dataService.UpdateGrid(gridJson);
 
@@ -106,8 +107,13 @@ namespace ShipTracking.Services
         public UpdateAttempt AddShip(AddShipModel model)
         {
             var grid = this.GetGrid();
-            var shipId = 1;
 
+            var xBoundary = grid.Dimensions.X;
+            var yBoundary = grid.Dimensions.Y;
+
+            if(model.IsOutOfBounds(xBoundary, yBoundary)) return new UpdateAttempt { Message = "Coorindates are out of bounds" };
+
+            var shipId = 1;            
             if (grid.Ships != null && grid.Ships.Any()) shipId = grid.Ships.Select(ship => ship.Id).Max() + 1;
 
             var orientation = InputHelpers.MapDirectionInput(model.Orientation);
@@ -116,14 +122,15 @@ namespace ShipTracking.Services
             {
                 Id = shipId,
                 Lost = false,
-                Orientation = orientation.Value, 
-                Position = new CoordinateModel {
+                Orientation = orientation.Value,
+                Position = new CoordinateModel
+                {
                     X = model.Position.X,
                     Y = model.Position.Y,
                 }
             };
 
-            grid.Ships = grid.Ships.Concat(new[] { shipToAdd });
+            grid.Ships = grid.Ships == null ? new[] { shipToAdd } : grid.Ships.Concat(new[] { shipToAdd });
             var gridJson = JsonConvert.SerializeObject(grid);
             var result = _dataService.UpdateGrid(gridJson);
             return result;

@@ -9,7 +9,7 @@ using System.Web;
 
 namespace ShipTracking.Models
 {
-    public class AddShipModel
+    public class AddShipModel : IPositionableOnGrid
     {
         public CoordinateModel Position { get; set; }
         [Required]

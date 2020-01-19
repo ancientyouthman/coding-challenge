@@ -1,14 +1,14 @@
 ﻿@model GridModel
 @{
-    var x = Model.Dimensions.X;
-    var y = Model.Dimensions.Y;
+    var x = Model.Dimensions == null ?  0 : Model.Dimensions.X;
+    var y = Model.Dimensions == null ? 0 : Model.Dimensions.Y;
 }
 
 @functions{
 
-    bool PositionHasShips(int x, int y)
+    bool? PositionHasShips(int x, int y)
     {
-        return Model.Ships.Where(ship => ship.Position.X == x && ship.Position.Y == y && !ship.Lost).Any();
+        return Model.Ships?.Where(ship => ship.Position.X == x && ship.Position.Y == y && !ship.Lost).Any();
     }
 
     bool PositionIsPointOfNoReturn(int x, int y)
@@ -40,7 +40,7 @@
                         <small>
                             @j, @i
                         </small>
-                        @if (PositionHasShips(j, i))
+                        @if (PositionHasShips(j, i) == true)
                     {
                         var shipsInPosition = GetShipsInformation(j, i);
                         foreach (var ship in shipsInPosition)

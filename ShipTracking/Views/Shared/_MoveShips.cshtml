@@ -17,7 +17,8 @@
                 {
                         <div class="row">
                             Ship ID: @ships[i].Id <br />
-                            Orientation: @ships[i].Orientation
+                            Orientation: @ships[i].Orientation<br />
+                            Position: (@ships[i].Position.X, @ships[i].Position.Y)
                         </div>
                         <label>Instruction</label>
                         <input type="hidden" name="Instructions[@i].ShipId" value="@ships[i].Id" />
@@ -28,6 +29,10 @@
                         <button type="button" id="btn-move-ships" class="btn btn-default">Move ships</button>
                     </div>
 
+                }
+                else
+                {
+                    <p>No ships to move.</p>
                 }
             </form>
     </div>

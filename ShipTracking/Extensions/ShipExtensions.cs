@@ -40,7 +40,13 @@ namespace ShipTracking.Extensions
                     ship.Position.X--;
                     break;
             }
+        }
 
+        public static bool IsOutOfBounds(this IPositionableOnGrid plot, int x, int y)
+        {
+            var position = plot.Position;
+            return position.X > x || position.Y > y || position.X < 0 || position.Y < 0;
         }
     }
 }
+

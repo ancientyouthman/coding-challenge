@@ -145,6 +145,7 @@
     </Compile>
     <Compile Include="Helpers\InputHelpers.cs" />
     <Compile Include="Models\AddShipModel.cs" />
+    <Compile Include="Models\Interfaces\IPositionableOnGrid.cs" />
     <Compile Include="Models\ResizeGridModel.cs" />
     <Compile Include="Models\CoordinateModel.cs" />
     <Compile Include="Models\InstructionModel.cs" />
