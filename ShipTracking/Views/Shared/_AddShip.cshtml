@@ -1,36 +1,32 @@
-﻿@model List<ShipModel>
+﻿@model AddShipModel
 
-@{
-    var ships = Model.Where(ship => !ship.Lost).ToList();
-}
-<div id="ships-control-panel">
-    <div class="row">
-        <div id="move-ships-errors" class="alert alert-dismissable alert-danger" style="display:none;">
+
+    <div class="col-md-4">
+        <div class="row">
+            <div id="add-ship-errors" class="alert alert-dismissable alert-danger" style="display:none;">
+            </div>
         </div>
+        <h3>Add ship</h3>
+        <form id="form-add-ship">
+            <div class="row">
+                <label>Orientation</label>
+                <select name="Direction">
+                    <option value="North">North</option>
+                    <option value="East">East</option>
+                    <option value="South">South</option>
+                    <option value="West">West</option>
+                </select>
+            </div>
+            <div class="row">
+                <label>X</label>
+                <input type="text" name="Position.X" />
+            </div>
+            <div class="row">
+                <label>Y</label>
+                <input type="text" name="Position.Y" />
+            </div>
+            <div class="row">
+                <button type="button" id="btn-add-ship" class="btn btn-default">Add ship</button>
+            </div>
+        </form>
     </div>
-    <div class="row">
-        <div class="col-md-4">
-            <h3>Move ships</h3>
-            <form id="form-move-ships">
-                @if (ships != null && ships.Any())
-            {
-                for (var i = 0; i < ships.Count(); i++)
-                {
-                        <div class="row">
-                            Ship ID: @ships[i].Id <br />
-                            Orientation: @ships[i].Orientation
-                        </div>
-                        <label>Instruction</label>
-                        <input type="hidden" name="Instructions[@i].ShipId" value="@ships[i].Id" />
-                        <input type="text" name="Instructions[@i].InstructionString" />
-
-                    }
-                    <div class="row">
-                        <button type="button" id="btn-move-ships" class="btn btn-default">Move ships</button>
-                    </div>
-
-                }
-            </form>
-        </div>
-    </div>
-</div>

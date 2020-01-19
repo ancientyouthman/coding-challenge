@@ -72,8 +72,10 @@ namespace ShipTracking.Controllers
         {
             if (coords?.X == coords?.Y) ModelState.AddModelError("", "Grid must be a rectangle");
             if (!ModelState.IsValid) return Errors();
-            _shipTrackingService.ResizeGrid(coords);
-            return RenderGrid();
+            var result = _shipTrackingService.ResizeGrid(coords);
+            if (result.Success) return this.RenderGrid();
+            ModelState.AddModelError("", result.Message);
+            return Errors();
         }
 
         [HttpGet]
@@ -85,7 +87,11 @@ namespace ShipTracking.Controllers
         [HttpPost]
         public ActionResult AddShip(AddShipModel ship)
         {
-            return null;
+            if (!ModelState.IsValid) return Errors();
+            var result = _shipTrackingService.AddShip(ship);
+            if (result.Success) return this.RenderGrid();
+            ModelState.AddModelError("", result.Message);
+            return Errors();
         }
 
 

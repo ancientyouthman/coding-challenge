@@ -4,11 +4,11 @@
     var ships = Model.Where(ship => !ship.Lost).ToList();
 }
 <div id="ships-control-panel">
-    <div class="row">
-        <div id="move-ships-errors" class="alert alert-dismissable alert-danger" style="display:none;">
-        </div>
-    </div>
         <div class="col-md-4">
+            <div class="row">
+                <div id="move-ships-errors" class="alert alert-dismissable alert-danger" style="display:none;">
+                </div>
+            </div>
             <h3>Move ships</h3>
             <form id="form-move-ships">
                 @if (ships != null && ships.Any())

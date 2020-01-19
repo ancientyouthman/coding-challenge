@@ -87,14 +87,16 @@ namespace ShipTracking.Services
 
         }
 
-        public UpdateAttempt ResizeGrid(ResizeGridModel coords)
+        public UpdateAttempt ResizeGrid(ResizeGridModel model)
         {
             var grid = this.GetGrid();
             grid.Dimensions = new CoordinateModel
             {
-                X = coords.X,
-                Y = coords.Y
+                X = model.X,
+                Y = model.Y
             };
+            // query: should we be "discovering" ships previously marked as lost? spec says "lost forever"
+            // also: can we abstract this away (creating and updating the grid json string)
             var gridJson = JsonConvert.SerializeObject(grid);
             var result = _dataService.UpdateGrid(gridJson);
             return result;
@@ -102,8 +104,26 @@ namespace ShipTracking.Services
 
         public UpdateAttempt AddShip(AddShipModel model)
         {
-            throw new NotImplementedException();
+            var grid = this.GetGrid();
+            var shipId = 1;
 
+            if (grid.Ships != null && grid.Ships.Any()) shipId = grid.Ships.Select(ship => ship.Id).Max() + 1;
+
+            var shipToAdd = new ShipModel
+            {
+                Id = shipId,
+                Lost = false,
+                Orientation = model.Orientation,
+                Position = new CoordinateModel {
+                    X = model.Position.X,
+                    Y = model.Position.Y,
+                }
+            };
+
+            grid.Ships = grid.Ships.Concat(new[] { shipToAdd });
+            var gridJson = JsonConvert.SerializeObject(grid);
+            var result = _dataService.UpdateGrid(gridJson);
+            return result;
         }
     }
 }
