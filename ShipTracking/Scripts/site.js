@@ -36,7 +36,7 @@ $(function () {
         $controlPanel.addClass('loading');
         $.ajax({
             type: 'GET',
-            url: '/ShipTracking/RenderControlPanel',
+            url: '/ShipTracking/RenderMoveShips',
             success: function (response) {
                 $controlPanel.removeClass('loading');
                 $controlPanel.html(response);

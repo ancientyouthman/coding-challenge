@@ -27,12 +27,12 @@ namespace ShipTracking.Controllers
         }
 
         [HttpGet]
-        public ActionResult RenderControlPanel()
+        public ActionResult RenderMoveShips()
         {
             var ships = new List<ShipModel>();
             var grid = _shipTrackingService.GetGrid();
             if (grid != null && grid.Ships != null) ships = grid.Ships.ToList();
-            return PartialView("_ControlPanel", ships);
+            return PartialView("_MoveShips", ships);
         }
 
         [HttpPost]
@@ -48,15 +48,12 @@ namespace ShipTracking.Controllers
                     {
                         ModelState.AddModelError(instruction.ShipId.ToString(), $"Invalid command for Ship ID {instruction.ShipId}");
                         break;
-                    }
-                  
+                    }                  
                 }
-
             }
 
             if (!ModelState.IsValid)
             {
-                // TODO: wrap in its own method
                return Errors();
             }
 
