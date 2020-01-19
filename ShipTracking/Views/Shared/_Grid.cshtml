@@ -31,30 +31,32 @@
 <br />
 <br />
 <div class="row">
-    @for (var i = x; i > 0; i--)
-    {
-        <div class="shipping-grid-row">
-            @for (var j = 1; j <= y; j++)
-            {
-                <div class="shipping-grid-square @(PositionIsPointOfNoReturn(j, i) ? "no-return" : "")">
-                    <small>
-                        @j, @i
-                    </small>
-                    @if (PositionHasShips(j, i))
+    <div id="ship-tracking-grid">
+        @for (var i = y; i > 0; i--)
+        {
+            <div class="shipping-grid-row">
+                @for (var j = 1; j <= x; j++)
+                {
+                    <div class="shipping-grid-square @(PositionIsPointOfNoReturn(j, i) ? "no-return" : "")">
+                        <small>
+                            @j, @i
+                        </small>
+                        @if (PositionHasShips(j, i))
                     {
                         var shipsInPosition = GetShipsInformation(j, i);
                         foreach (var ship in shipsInPosition)
                         {
-                            <p>
-                                Ship ID: @ship.Id <br />
-                                Orientation: @ship.Orientation
-                            </p>
+                                <p>
+                                    Ship ID: @ship.Id <br />
+                                    Orientation: @ship.Orientation
+                                </p>
+                            }
                         }
-                    }
-                </div>
-            }
-        </div>
-    }
+                    </div>
+                }
+            </div>
+        }
+    </div>
 </div>
 
 

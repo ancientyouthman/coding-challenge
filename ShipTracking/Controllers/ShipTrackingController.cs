@@ -1,5 +1,6 @@
 ﻿using ShipTracking.Models;
 using ShipTracking.Services;
+using ShipTracking.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,13 +35,10 @@ namespace ShipTracking.Controllers
             return PartialView("_ControlPanel", ships);
         }
 
-      //  [HttpPost] to test via a GET in browser
-      // ran out of time to implement the post to this method
+        [HttpPost] 
         public ActionResult MoveShips(List<InstructionModel> instructions )
         {
             // test data as model not bound 
-            instructions = new List<InstructionModel>();
-            instructions.Add(new InstructionModel { InstructionString = "FRF", ShipId = 1 });
 
             if (instructions == null || !instructions.Any()) return null;
 
@@ -53,12 +51,18 @@ namespace ShipTracking.Controllers
                             ModelState.AddModelError("", $"Invalid command for Ship ID {instruction.ShipId}");
                         }
                     }
-                }            
+                }
 
-            if (!ModelState.IsValid) return null; // TODO: hmm
+            if (!ModelState.IsValid)
+            {
+                // TODO: wrap in its own method
+                Response.StatusCode = 400;
+                var errors =  ModelState.Values.SelectMany(v => v.Errors);
+                return Json(new { errors });
+            }
 
             _shipTrackingService.MoveShips(instructions);
-            return null;
+            return this.RenderGrid();
 
         }
     }
